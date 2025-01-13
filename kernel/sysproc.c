@@ -100,3 +100,10 @@ sys_welcome(void)
     printf("Hey, welcome to xv6 system\n");
     return 0;
 }
+
+// Function to calculate free memory
+uint64
+sys_freemem(void)
+{
+    return free_mem_size(); // Calls the memory allocator to get free memory
+}

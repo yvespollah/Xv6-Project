@@ -37,4 +37,5 @@ entry("sbrk");
 entry("sleep");
 entry("uptime");
 entry("welcome");
+entry("freemem");
 
