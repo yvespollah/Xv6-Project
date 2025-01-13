@@ -45,5 +45,6 @@ void free(void*);
 // my fonction
 int welcome(void);
 int freemem(void);
+int touch(char *path);
 
 
