@@ -91,3 +91,12 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+// fonction to display a message of salutation
+
+uint64
+sys_welcome(void)
+{
+    printf("Hey, welcome to xv6 system\n");
+    return 0;
+}
