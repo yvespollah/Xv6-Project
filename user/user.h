@@ -41,3 +41,7 @@ void *memcpy(void *, const void *, uint);
 // umalloc.c
 void* malloc(uint);
 void free(void*);
+
+// my fonction
+int welcome(void);
+
