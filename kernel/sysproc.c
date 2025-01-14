@@ -5,6 +5,9 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "stat.h"
+
+
 
 uint64
 sys_exit(void)
@@ -107,3 +110,26 @@ sys_freemem(void)
 {
     return free_mem_size(); // Calls the memory allocator to get free memory
 }
+
+// function that create a file
+
+
+uint64
+sys_touch(void)
+{
+    char path[MAXPATH];
+    if (argstr(0, path, MAXPATH) < 0)
+        return -1;
+
+    begin_op();  // Start a transaction
+    struct inode *ip = create(path, T_FILE, 0, 0);
+    if (ip == 0) {
+        end_op();  // End the transaction
+        return -1;
+    }
+    iunlockput(ip);
+    end_op();  // End the transaction
+
+    return 0; // Success
+}
+

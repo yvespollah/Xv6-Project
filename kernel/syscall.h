@@ -22,3 +22,4 @@
 #define SYS_close  21
 #define SYS_welcome 22
 #define SYS_freemem 24
+#define SYS_touch 25

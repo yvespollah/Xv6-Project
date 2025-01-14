@@ -38,4 +38,5 @@ entry("sleep");
 entry("uptime");
 entry("welcome");
 entry("freemem");
+entry("touch");
 
