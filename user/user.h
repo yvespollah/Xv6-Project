@@ -23,6 +23,7 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 
+
 // ulib.c
 int stat(const char*, struct stat*);
 char* strcpy(char*, const char*);
@@ -46,5 +47,7 @@ void free(void*);
 int welcome(void);
 int freemem(void);
 int touch(char *path);
+int listprocs(void);
+
 
 
