@@ -23,3 +23,4 @@
 #define SYS_welcome 22
 #define SYS_freemem 24
 #define SYS_touch 25
+#define SYS_listprocs 26

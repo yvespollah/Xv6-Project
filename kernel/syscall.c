@@ -104,6 +104,7 @@ extern uint64 sys_close(void);
 extern uint64 sys_welcome(void);  // implemented in sysproc.c
 extern uint64 sys_freemem(void);
 extern uint64 sys_touch(void);
+extern uint64 sys_listprocs(void);
 
 
 // An array mapping syscall numbers from syscall.h
@@ -133,6 +134,8 @@ static uint64 (*syscalls[])(void) = {
 [SYS_welcome] sys_welcome,
 [SYS_freemem] sys_freemem,
 [SYS_touch] sys_touch,
+[SYS_listprocs]  sys_listprocs,
+
 };
 
 void

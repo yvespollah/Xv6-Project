@@ -39,4 +39,6 @@ entry("uptime");
 entry("welcome");
 entry("freemem");
 entry("touch");
+entry("listprocs");
+
 
