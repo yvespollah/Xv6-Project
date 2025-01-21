@@ -120,3 +120,9 @@ touch:
  li a7, SYS_touch
  ecall
  ret
+.global listprocs
+listprocs:
+ li a7, SYS_listprocs
+ ecall
+ ret
+

@@ -693,3 +693,20 @@ procdump(void)
     printf("\n");
   }
 }
+
+// Print a list of all active processes to the console.
+// Displays the PID, state, and name of each process.
+// Skips any processes that are in the UNUSED state.
+// Returns 0 on success.
+
+uint64
+sys_listprocs(void) {
+    struct proc *p;
+    printf("PID\tState\tName\n");
+    for (p = proc; p < &proc[NPROC]; p++) {
+        if (p->state == UNUSED)
+            continue; // Skip unused entries
+        printf("%d\t%d\t%s\n", p->pid, p->state, p->name);
+    }
+    return 0; // Success
+}
