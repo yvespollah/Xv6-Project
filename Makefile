@@ -145,6 +145,7 @@ UPROGS=\
 	$U/_listprocs\
 	$U/_lseek\
 	$U/_clear\
+	$U/_ps\
 
 
 fs.img: mkfs/mkfs README $(UPROGS)

@@ -25,6 +25,7 @@ int uptime(void);
 
 
 
+
 // ulib.c
 int stat(const char*, struct stat*);
 char* strcpy(char*, const char*);
@@ -51,6 +52,6 @@ int touch(char *path);
 int listprocs(void);
 int lseek(int, const int, const int);
 int clear(void);
-
+int cps(void);
 
 
