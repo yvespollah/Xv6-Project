@@ -111,6 +111,7 @@ allocproc(void)
 {
   struct proc *p;
 
+
   for(p = proc; p < &proc[NPROC]; p++) {
     acquire(&p->lock);
     if(p->state == UNUSED) {
@@ -124,6 +125,7 @@ allocproc(void)
 found:
   p->pid = allocpid();
   p->state = USED;
+  p->priority = 10; // Default priority value
 
   p->start_time = ticks;      // Current time in ticks
   p->runtime = 0;             // Start with zero runtime
@@ -766,4 +768,39 @@ uint64 sys_listprocs(void) {
   */
   } 
   return 0;
+}
+
+
+uint64
+sys_clear(void) {
+    printf("Shutting down xv6...\n");
+    wait(5000);
+    // outw(0x604, 0x2000);  // QEMU exit command
+    // sbi_shutdown();
+    printf("\033[H\033[J");
+    return 0;
+}
+
+// ---------function to list all process------------------------------
+
+int
+cps()
+{
+struct proc *p;
+//Enables interrupts on this processor.
+//stati();
+intr_on();
+//Loop over process table looking for process with pid.
+
+printf("name \t pid \t state \t priority \n");
+for(p = proc; p < &proc[NPROC]; p++){
+  if(p->state == SLEEPING)
+	  printf("%s \t %d \t SLEEPING \t %d \n ", p->name,p->pid,p->priority);
+	else if(p->state == RUNNING)
+ 	  printf("%s \t %d \t RUNNING \t %d \n ", p->name,p->pid,p->priority);
+	else if(p->state == RUNNABLE)
+ 	  printf("%s \t %d \t RUNNABLE \t %d \n ", p->name,p->pid,p->priority);
+}
+
+return 29;
 }

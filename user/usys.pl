@@ -40,5 +40,9 @@ entry("welcome");
 entry("freemem");
 entry("touch");
 entry("listprocs");
+entry("lseek");
+entry("clear");
+entry("cps");
+
 
 

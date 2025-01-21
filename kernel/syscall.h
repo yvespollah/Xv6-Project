@@ -24,3 +24,6 @@
 #define SYS_freemem 24
 #define SYS_touch 25
 #define SYS_listprocs 26
+#define SYS_lseek 27
+#define SYS_clear 28
+#define SYS_cps   29

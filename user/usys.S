@@ -125,3 +125,18 @@ listprocs:
  li a7, SYS_listprocs
  ecall
  ret
+.global lseek
+lseek:
+ li a7, SYS_lseek
+ ecall
+ ret
+.global clear
+clear:
+ li a7, SYS_clear
+ ecall
+ ret
+.global cps
+cps:
+ li a7, SYS_cps
+ ecall
+ ret
