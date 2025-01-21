@@ -346,6 +346,13 @@ sfence_vma()
   asm volatile("sfence.vma zero, zero");
 }
 
+static inline void sbi_shutdown() {
+    asm volatile("li a7, 8");  // Load the SBI call number for shutdown
+    asm volatile("ecall");     // Trigger the SBI system call
+}
+
+
+
 typedef uint64 pte_t;
 typedef uint64 *pagetable_t; // 512 PTEs
 
@@ -380,3 +387,7 @@ typedef uint64 *pagetable_t; // 512 PTEs
 // Sv39, to avoid having to sign-extend virtual addresses
 // that have the high bit set.
 #define MAXVA (1L << (9 + 9 + 9 + 12 - 1))
+
+
+
+
