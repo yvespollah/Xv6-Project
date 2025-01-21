@@ -130,3 +130,8 @@ lseek:
  li a7, SYS_lseek
  ecall
  ret
+.global clear
+clear:
+ li a7, SYS_clear
+ ecall
+ ret

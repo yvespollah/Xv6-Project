@@ -197,4 +197,8 @@ uint64 free_mem_size(void);
 
 // touch fxn
 uint64 sys_touch(void);
+ 
+// // lseek //already declared in  sysfile.c
+// uint64 sys_lseek(void);
+
 

@@ -144,6 +144,7 @@ UPROGS=\
 	$U/_touch\
 	$U/_listprocs\
 	$U/_lseek\
+	$U/_clear\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)

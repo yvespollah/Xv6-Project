@@ -710,3 +710,13 @@ sys_listprocs(void) {
     }
     return 0; // Success
 }
+
+uint64
+sys_clear(void) {
+    printf("Shutting down xv6...\n");
+    wait(5000);
+    // outw(0x604, 0x2000);  // QEMU exit command
+    // sbi_shutdown();
+    printf("\033[H\033[J");
+    return 0;
+}

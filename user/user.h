@@ -50,6 +50,7 @@ int freemem(void);
 int touch(char *path);
 int listprocs(void);
 int lseek(int, const int, const int);
+int clear(void);
 
 
 
