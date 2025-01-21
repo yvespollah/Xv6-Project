@@ -81,7 +81,6 @@ main(void)
             }
         }
       sleep(50);
-  
     } 
 
 

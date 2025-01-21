@@ -10,14 +10,12 @@ int main() {
     //     printf("Shutdown syscall failed\n");
     // }
     clear();
-<<<<<<< HEAD
     printf("\t\t====================================================\n");
     printf("\n\t\t***** Welcome to our new version of xv6 *****\n\n\n");
     printf("\t\t\t designed by M1 students of UY1\n");
     printf("\t\t===================================================\n");        
     printf("\n* execute a system call*\n");
     printf("=====================\n");
-=======
->>>>>>> dd7f55c (adding the clear system call using the ANSI code)
+
     return 0;
 }
