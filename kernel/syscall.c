@@ -108,7 +108,10 @@ extern uint64 sys_touch(void);
 extern uint64 sys_listprocs(void);
 extern uint64 sys_lseek(void);
 extern uint64 sys_clear(void);
+<<<<<<< HEAD
 
+=======
+>>>>>>> dd7f55c (adding the clear system call using the ANSI code)
 
 
 // An array mapping syscall numbers from syscall.h
@@ -142,7 +145,10 @@ static uint64 (*syscalls[])(void) = {
 [SYS_lseek]  sys_lseek,
 [SYS_clear]  sys_clear,
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dd7f55c (adding the clear system call using the ANSI code)
 };
 
 void
