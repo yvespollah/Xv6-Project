@@ -143,6 +143,7 @@ UPROGS=\
 	$U/_freememtest\
 	$U/_touch\
 	$U/_listprocs\
+	$U/_lseek\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)

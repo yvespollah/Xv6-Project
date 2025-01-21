@@ -53,10 +53,11 @@ argraw(int n)
 }
 
 // Fetch the nth 32-bit system call argument.
-void
+int 
 argint(int n, int *ip)
 {
   *ip = argraw(n);
+  return 0;
 }
 
 // Retrieve an argument as a pointer.
@@ -105,6 +106,7 @@ extern uint64 sys_welcome(void);  // implemented in sysproc.c
 extern uint64 sys_freemem(void);
 extern uint64 sys_touch(void);
 extern uint64 sys_listprocs(void);
+extern uint64 sys_lseek(void);
 
 
 // An array mapping syscall numbers from syscall.h
@@ -135,7 +137,7 @@ static uint64 (*syscalls[])(void) = {
 [SYS_freemem] sys_freemem,
 [SYS_touch] sys_touch,
 [SYS_listprocs]  sys_listprocs,
-
+[SYS_lseek]  sys_lseek,
 };
 
 void

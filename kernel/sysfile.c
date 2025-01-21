@@ -15,6 +15,7 @@
 #include "sleeplock.h"
 #include "file.h"
 #include "fcntl.h"
+// #include "syscall.c"
 
 // Fetch the nth word-sized system call argument as a file descriptor
 // and return both the descriptor and the corresponding struct file.
@@ -502,4 +503,51 @@ sys_pipe(void)
     return -1;
   }
   return 0;
+}
+
+int
+sys_lseek(void)
+{
+    int fd;
+    int offset;
+    int whence;
+    struct file *f;
+
+    // Retrieve arguments from the user
+    if (argint(0, &fd) < 0 || argint(1, &offset) < 0 || argint(2, &whence) < 0)
+        return -1;
+
+    // Get the file object from the file descriptor
+    if ((f = myproc()->ofile[fd]) == 0)
+        return -1; // Invalid file descriptor
+
+    if (f->type != FD_INODE)
+        return -1; // Not a file or not seekable
+
+    struct inode *ip = f->ip;
+
+    // Compute the new offset
+    int new_offset;
+    switch (whence) {
+        case 0: // SEEK_SET
+            new_offset = offset;
+            break;
+        case 1: // SEEK_CUR
+            new_offset = f->off + offset;
+            break;
+        case 2: // SEEK_END
+            new_offset = ip->size + offset;
+            break;
+        default:
+            return -1; // Invalid whence
+    }
+
+    // Validate the new offset
+    if (new_offset < 0 || new_offset > ip->size)
+        return -1;
+
+    // Update the file offset
+    f->off = new_offset;
+
+    return new_offset;
 }
