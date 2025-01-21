@@ -110,6 +110,7 @@ extern uint64 sys_lseek(void);
 extern uint64 sys_clear(void);
 
 
+
 // An array mapping syscall numbers from syscall.h
 // to the function that handles the system call.
 static uint64 (*syscalls[])(void) = {
@@ -140,6 +141,7 @@ static uint64 (*syscalls[])(void) = {
 [SYS_listprocs]  sys_listprocs,
 [SYS_lseek]  sys_lseek,
 [SYS_clear]  sys_clear,
+
 
 };
 

@@ -146,7 +146,6 @@ UPROGS=\
 	$U/_lseek\
 	$U/_clear\
 
-
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
 

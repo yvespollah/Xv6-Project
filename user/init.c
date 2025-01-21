@@ -80,7 +80,7 @@ main(void)
                 exit(1);
             }
         }
-      sleep(40);
+      sleep(50);
   
     } 
 
