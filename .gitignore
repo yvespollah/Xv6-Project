@@ -6,3 +6,5 @@ _*
 *.sym
 *.img
 .gdbinit
+*
+!**/*.* 
