@@ -104,4 +104,11 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
+
+  uint64 start_time;           // Time (in ticks) when the process started
+  uint64 runtime;              // Total runtime (in ticks)
+  uint64 memory;               // Memory usage in bytes
+  uint64 last_scheduled;       // Last time the process was scheduled
+
+
 };

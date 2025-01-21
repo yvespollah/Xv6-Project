@@ -125,6 +125,11 @@ found:
   p->pid = allocpid();
   p->state = USED;
 
+  p->start_time = ticks;      // Current time in ticks
+  p->runtime = 0;             // Start with zero runtime
+  p->memory = 0;              // Initial memory usage is zero
+  p->last_scheduled = ticks;  // Process was just created
+
   // Allocate a trapframe page.
   if((p->trapframe = (struct trapframe *)kalloc()) == 0){
     freeproc(p);
@@ -434,6 +439,11 @@ wait(uint64 addr)
   }
 }
 
+// Helper to calculate memory usage of a process
+uint64 calculate_memory(struct proc *p) {
+  return PGROUNDUP(p->sz); // Align process size to page boundaries
+}
+
 // Per-CPU process scheduler.
 // Each CPU calls scheduler() after setting itself up.
 // Scheduler never returns.  It loops, doing:
@@ -458,10 +468,23 @@ scheduler(void)
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
       if(p->state == RUNNABLE) {
+        
+
+        
+        uint64 now = ticks;
+
+
         // Switch to chosen process.  It is the process's job
         // to release its lock and then reacquire it
         // before jumping back to us.
         p->state = RUNNING;
+
+        p->runtime += (now - p->last_scheduled); // Update runtime
+        p->last_scheduled = now;                 // Update the last scheduled time
+        // Update memory usage
+        p->memory = calculate_memory(p); 
+
+
         c->proc = p;
         swtch(&c->context, &p->context);
 
@@ -699,7 +722,7 @@ procdump(void)
 // Skips any processes that are in the UNUSED state.
 // Returns 0 on success.
 
-uint64
+/* uint64
 sys_listprocs(void) {
     struct proc *p;
     printf("PID\tState\tName\n");
@@ -709,4 +732,38 @@ sys_listprocs(void) {
         printf("%d\t%d\t%s\n", p->pid, p->state, p->name);
     }
     return 0; // Success
+}
+*/
+
+uint64 sys_listprocs(void) {
+  struct proc *p;
+  uint64 uptime = ticks;
+
+  printf("PID\t%%CPU\t%%MEM\tSTART\tRUNTIME\tNAME\n");
+  for (p = proc; p < &proc[NPROC]; p++) {
+    if (p->state == UNUSED)
+      continue;
+
+    uint64 cpu_usage = 0;
+    
+    if (uptime > p->start_time) {
+    cpu_usage = (100 * p->runtime) / (uptime - p->start_time);
+    } 
+    else {
+    cpu_usage = 0; // Newly created processes
+    }
+
+    uint64 mem_usage = (100 * p->memory) / PHYSTOP;
+    uint64 start_seconds = p->start_time / HZ;
+    uint64 runtime_seconds = p->runtime / HZ;
+
+    printf("%d\t%lu%%\t%lu%%\t%lu\t%lu\t%s\n",
+           p->pid, cpu_usage, mem_usage, start_seconds, runtime_seconds, p->name);
+
+  /*  printf("%d\t%d%%\t%d%%\t%ld\t%ld\t%s\t\t%s\n",
+           p->pid, cpu_usage, mem_usage, start_seconds, runtime_seconds, p->cwd ? p->cwd->name : "/", p->name
+           );
+  */
+  } 
+  return 0;
 }
