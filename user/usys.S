@@ -120,8 +120,3 @@ touch:
  li a7, SYS_touch
  ecall
  ret
-.global delete
-delete:
- li a7, SYS_delete
- ecall
- ret
