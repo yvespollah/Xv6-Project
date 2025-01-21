@@ -133,3 +133,8 @@ sys_touch(void)
     return 0; // Success
 }
 
+int
+sys_cps(void)
+{
+  return cps();
+}

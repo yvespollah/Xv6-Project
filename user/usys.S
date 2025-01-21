@@ -135,3 +135,8 @@ clear:
  li a7, SYS_clear
  ecall
  ret
+.global cps
+cps:
+ li a7, SYS_cps
+ ecall
+ ret

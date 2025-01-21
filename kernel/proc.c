@@ -111,6 +111,7 @@ allocproc(void)
 {
   struct proc *p;
 
+
   for(p = proc; p < &proc[NPROC]; p++) {
     acquire(&p->lock);
     if(p->state == UNUSED) {
@@ -124,6 +125,7 @@ allocproc(void)
 found:
   p->pid = allocpid();
   p->state = USED;
+  p->priority = 10; // Default priority value
 
   // Allocate a trapframe page.
   if((p->trapframe = (struct trapframe *)kalloc()) == 0){
@@ -719,4 +721,28 @@ sys_clear(void) {
     // sbi_shutdown();
     printf("\033[H\033[J");
     return 0;
+}
+
+// ---------function to list all process------------------------------
+
+int
+cps()
+{
+struct proc *p;
+//Enables interrupts on this processor.
+//stati();
+intr_on();
+//Loop over process table looking for process with pid.
+
+printf("name \t pid \t state \t priority \n");
+for(p = proc; p < &proc[NPROC]; p++){
+  if(p->state == SLEEPING)
+	  printf("%s \t %d \t SLEEPING \t %d \n ", p->name,p->pid,p->priority);
+	else if(p->state == RUNNING)
+ 	  printf("%s \t %d \t RUNNING \t %d \n ", p->name,p->pid,p->priority);
+	else if(p->state == RUNNABLE)
+ 	  printf("%s \t %d \t RUNNABLE \t %d \n ", p->name,p->pid,p->priority);
+}
+
+return 29;
 }

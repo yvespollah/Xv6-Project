@@ -36,7 +36,8 @@ int main(void) {
     read(fd, buf, 5);
     buf[5] = '\0';
     printf("retrieve the 5 first charters: %s\n", buf );
-    lseek(fd, 0, 1 );    
+    lseek(fd, 0, 1 );
+        
     read(fd, buf, 2);
     buf[2] = '\0';
     printf("retrieve the 2 following charters from the current cursor place: %s\n", buf );
