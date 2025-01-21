@@ -695,3 +695,9 @@ nameiparent(char *path, char *name)
 {
   return namex(path, 1, name);
 }
+
+int rename_file(struct inode *ip, const char *oldname, const char *newname) 
+{
+    return 0;  // Return 0 on success, or -1 on failure
+}
+

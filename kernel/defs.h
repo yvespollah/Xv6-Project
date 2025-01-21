@@ -134,7 +134,7 @@ int             strncmp(const char*, const char*, uint);
 char*           strncpy(char*, const char*, int);
 
 // syscall.c
-void            argint(int, int*);
+int            argint(int, int*);
 int             argstr(int, char*, int);
 void            argaddr(int, uint64 *);
 int             fetchstr(uint64, char*, int);
@@ -197,4 +197,8 @@ uint64 free_mem_size(void);
 
 // touch fxn
 uint64 sys_touch(void);
+ 
+// // lseek //already declared in  sysfile.c
+// uint64 sys_lseek(void);
+
 
