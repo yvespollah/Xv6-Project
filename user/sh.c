@@ -1,8 +1,9 @@
 // Shell.
 
 #include "kernel/types.h"
-#include "user/user.h"
 #include "kernel/fcntl.h"
+#include "user/user.h"
+
 
 // Parsed command representation
 #define EXEC  1
@@ -164,6 +165,12 @@ main(void)
       if(chdir(buf+3) < 0)
         fprintf(2, "cannot cd %s\n", buf+3);
       continue;
+    }
+    // Add simple exit command handling
+    if(buf[0] == 'e' && buf[1] == 'x' && buf[2] == 'i' && buf[3] == 't' && 
+       (buf[4] == '\n' || buf[4] == ' ' || buf[4] == 0)) {
+        printf("Returning to welcome screen...\n");
+        exit(0);
     }
     if(fork1() == 0)
       runcmd(parsecmd(buf));

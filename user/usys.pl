@@ -43,6 +43,3 @@ entry("listprocs");
 entry("lseek");
 entry("clear");
 entry("cps");
-
-
-
