@@ -6,6 +6,5 @@ _*
 *.sym
 *.img
 .gdbinit
-*
-!**/*.*
+kernel/kernel
 .vscode/
