@@ -147,6 +147,7 @@ UPROGS=\
 	$U/_clear\
 	$U/_ps\
 	$U/_calc\
+	$U/_edit\
 
 
 
