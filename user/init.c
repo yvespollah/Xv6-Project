@@ -54,9 +54,9 @@ int main(void) {
         } 
         else if (input[0] == '2') {
             // Option 2: Start the shell
+            printf("\nEnter exit to go back\nStarting the shell...\n");
             printf("\n\n\n\n\n\n\n\n\n\n");
-            printf("Starting the shell...\n");
-            pid = fork();
+                        pid = fork();
             if (pid < 0) {
                 printf("init: fork failed\n");
                 exit(1);
