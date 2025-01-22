@@ -1,7 +1,7 @@
 #include "kernel/types.h"
 #include "kernel/stat.h"
 #include "user.h"
-// #include "usergroups.h"
+#include "usergroups.h"
 #include "kernel/fs.h"
 #include "kernel/fcntl.h"
 
@@ -44,68 +44,68 @@ ls(char *path)
 		return;
 	}
 
-// 	switch(st.type){
-// 	case T_FILE:
-// 		printf("%s %d %d %d\n", fmtname(path), st.type, st.ino, st.size);
-// 		break;
+	switch(st.type){
+	case T_FILE:
+		printf("%s %d %d %d\n", fmtname(path), st.type, st.ino, st.size);
+		break;
 
-// 	case T_DIR:
-// 		if(strlen(path) + 1 + DIRSIZ + 1 > sizeof buf){
-// 			printf("ls: path too long\n");
-// 			break;
-// 		}
-// 		strcpy(buf, path);
-// 		p = buf+strlen(buf);
-// 		*p++ = '/';
-// 		while(read(fd, &de, sizeof(de)) == sizeof(de)){
-// 			if(de.inum == 0)
-// 				continue;
-// 			memmove(p, de.name, DIRSIZ);
-// 			p[DIRSIZ] = 0;
-// 			if(stat(buf, &st) < 0){
-// 				printf("ls: cannot stat %s\n", buf);
-// 				continue;
-// 			}
-// 			struct user* fileOwner=getUserFromUid(st.uid);
-// 			struct group* groupOwner=getGroupFromGid(st.gid);
-// 			char permisionsString[10];
-// 			getPermisionsString(st.mode, st.type, permisionsString);
+	case T_DIR:
+		if(strlen(path) + 1 + DIRSIZ + 1 > sizeof buf){
+			printf("ls: path too long\n");
+			break;
+		}
+		strcpy(buf, path);
+		p = buf+strlen(buf);
+		*p++ = '/';
+		while(read(fd, &de, sizeof(de)) == sizeof(de)){
+			if(de.inum == 0)
+				continue;
+			memmove(p, de.name, DIRSIZ);
+			p[DIRSIZ] = 0;
+			if(stat(buf, &st) < 0){
+				printf("ls: cannot stat %s\n", buf);
+				continue;
+			}
+			struct user* fileOwner=getUserFromUid(st.uid);
+			struct group* groupOwner=getGroupFromGid(st.gid);
+			char permisionsString[10];
+			getPermisionsString(st.mode, st.type, permisionsString);
 
-// 			printf("%s %d %s %s %d %s\n", permisionsString, st.type, fileOwner->username, groupOwner->groupname, st.size, fmtname(buf));
-// 		}
-// 		break;
-// 	}
-// 	close(fd);
-// }
-	 switch(st.type){
-  case T_DEV:
-  case T_FILE:
-    printf("%s %d %d %d\n", fmtname(path), st.type, st.ino, (int) st.size);
-    break;
-
-  case T_DIR:
-    if(strlen(path) + 1 + DIRSIZ + 1 > sizeof buf){
-      printf("ls: path too long\n");
-      break;
-    }
-    strcpy(buf, path);
-    p = buf+strlen(buf);
-    *p++ = '/';
-    while(read(fd, &de, sizeof(de)) == sizeof(de)){
-      if(de.inum == 0)
-        continue;
-      memmove(p, de.name, DIRSIZ);
-      p[DIRSIZ] = 0;
-      if(stat(buf, &st) < 0){
-        printf("ls: cannot stat %s\n", buf);
-        continue;
-      }
-      printf("%s %d %d %d\n", fmtname(buf), st.type, st.ino, (int) st.size);
-    }
-    break;
-  }
-  close(fd);
+			printf("%s %d %s %s %d %s\n", permisionsString, st.type, fileOwner->username, groupOwner->groupname, st.size, fmtname(buf));
+		}
+		break;
+	}
+	close(fd);
 }
+// 	 switch(st.type){
+//   case T_DEV:
+//   case T_FILE:
+//     printf("%s %d %d %d\n", fmtname(path), st.type, st.ino, (int) st.size);
+//     break;
+
+//   case T_DIR:
+//     if(strlen(path) + 1 + DIRSIZ + 1 > sizeof buf){
+//       printf("ls: path too long\n");
+//       break;
+//     }
+//     strcpy(buf, path);
+//     p = buf+strlen(buf);
+//     *p++ = '/';
+//     while(read(fd, &de, sizeof(de)) == sizeof(de)){
+//       if(de.inum == 0)
+//         continue;
+//       memmove(p, de.name, DIRSIZ);
+//       p[DIRSIZ] = 0;
+//       if(stat(buf, &st) < 0){
+//         printf("ls: cannot stat %s\n", buf);
+//         continue;
+//       }
+//       printf("%s %d %d %d\n", fmtname(buf), st.type, st.ino, (int) st.size);
+//     }
+//     break;
+//   }
+//   close(fd);
+// }
 
 int
 main(int argc, char *argv[])
