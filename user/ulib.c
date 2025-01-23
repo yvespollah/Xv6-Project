@@ -145,3 +145,63 @@ memcpy(void *dst, const void *src, uint n)
 {
   return memmove(dst, src, n);
 }
+
+/*
+ char *strncpy(char *dest, const char *src, int n) {
+    int i;
+    for (i = 0; i < n && src[i] != '\0'; i++) {
+        dest[i] = src[i];
+    }
+    for (; i < n; i++) {
+        dest[i] = '\0';
+    }
+    return dest;
+}
+*/
+
+/**
+ * Copies at most n characters of src to dest, padding with zeros
+ * if src is shorter than n characters.  If src is longer than n
+ * characters, no null terminator is appended.
+ *
+ * Returns a pointer to dest.
+ */
+char *strncpy(char *dest, const char *src, uint n) {
+    uint i;
+    for (i = 0; i < n && src[i] != '\0'; i++) {
+        dest[i] = src[i];
+    }
+    for (; i < n; i++) {
+        dest[i] = '\0';
+    }
+    return dest;
+}
+
+/**
+ * Concatenates at most n characters of src to dest, null-terminating the
+ * result.  If src is shorter than n characters, no null terminator is
+ * appended.
+ *
+ * Returns a pointer to dest.
+ */
+char *mystrncat(char *dest, const char *src, uint n) {
+    char *d = dest;
+    
+    // Move `d` to the end of the destination string
+    while (*d != '\0') {
+        d++;
+    }
+    
+    // Append up to `n` characters from the source string
+    while (n > 0 && *src != '\0') {
+        *d = *src;
+        d++;
+        src++;
+        n--;
+    }
+    
+    // Null-terminate the resulting string
+    *d = '\0';
+    
+    return dest;
+}

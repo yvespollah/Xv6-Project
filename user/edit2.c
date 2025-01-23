@@ -2,7 +2,6 @@
 #include "kernel/stat.h"
 #include "user/user.h"
 #include "kernel/fcntl.h"
-#include <string.h>
 
 #define MAXLINE 100  // Maximum line length
 #define MAXLINES 100 // Maximum number of lines
@@ -39,30 +38,7 @@ void display() {
     printf("\nLine: %d Col: %d\n", cur_line + 1, cur_col + 1);
 }
 
-void insert_newline() {
-    if(num_lines >= MAXLINES - 1) return;
-    
-    // Shift all lines below down
-    for(int i = num_lines; i > cur_line + 1; i--) {
-        strcpy(lines[i], lines[i-1]);
-    }
-    
-    // Split current line at cursor
-    int split_pos = cur_col;
-    strcpy(lines[cur_line + 1], &lines[cur_line][split_pos]);
-    lines[cur_line][split_pos] = '\0';
-    
-    num_lines++;
-    cur_line++;
-    cur_col = 0;
-}
-
 void insert_char(char c) {
-    if(c == '\n') {
-        insert_newline();
-        return;
-    }
-    
     int len = strlen(lines[cur_line]);
     if(len < MAXLINE - 1 && cur_col < MAXLINE - 1) {
         // Shift characters right
@@ -81,19 +57,6 @@ void delete_char() {
         for(int i = cur_col - 1; i < len; i++)
             lines[cur_line][i] = lines[cur_line][i+1];
         cur_col--;
-    } else if(cur_col == 0 && cur_line > 0) {
-        // At start of line, merge with previous line
-        int prev_len = strlen(lines[cur_line - 1]);
-        if(prev_len + len < MAXLINE) {
-            strcat(lines[cur_line - 1], lines[cur_line]);
-            // Shift remaining lines up
-            for(int i = cur_line; i < num_lines - 1; i++) {
-                strcpy(lines[i], lines[i + 1]);
-            }
-            num_lines--;
-            cur_line--;
-            cur_col = prev_len;
-        }
     }
 }
 
@@ -164,7 +127,7 @@ int main(int argc, char *argv[]) {
         read(0, buf, 1);
         if(insert_mode) {
             switch(buf[0]) {
-                case CTRL('q'):
+                case CTRL('x'):
                     // Exit
                     exit(0);
                 case CTRL('s'):
@@ -178,10 +141,6 @@ int main(int argc, char *argv[]) {
                 case 127:  // Backspace
                     delete_char();
                     break;
-                case '\r':  // Enter key
-                case '\n':
-                    insert_newline();
-                    break;
                 default:
                     if(buf[0] >= 32 && buf[0] <= 126)  // Printable characters
                         insert_char(buf[0]);
@@ -189,7 +148,7 @@ int main(int argc, char *argv[]) {
             }
         } else {
             switch(buf[0]) {
-                case 'q':
+                case 'x':
                     exit(0);
                 case 'i':
                     insert_mode = 1;
