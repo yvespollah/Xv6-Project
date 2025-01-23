@@ -138,7 +138,7 @@ runcmd(struct cmd *cmd)
 int
 getcmd(char *buf, int nbuf)
 {
-	fprintf(2, "$ ");
+	printf("\033[32m$ \033[0m");  // Green dollar sign
 	memset(buf, 0, nbuf);
 	gets(buf, nbuf);
 	if(buf[0] == 0) // EOF
@@ -168,6 +168,12 @@ main(void)
 			if(chdir(buf+3) < 0)
 				fprintf(2, "cannot cd %s\n", buf+3);
 			continue;
+		}
+	// Add simple exit command handling
+		if(buf[0] == 'e' && buf[1] == 'x' && buf[2] == 'i' && buf[3] == 't' && 
+		(buf[4] == '\n' || buf[4] == ' ' || buf[4] == 0)) {
+			printf("Returning to welcome screen...\n");
+			exit();
 		}
 		if(fork1() == 0)
 			runcmd(parsecmd(buf));
