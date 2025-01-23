@@ -549,7 +549,7 @@ procdump(void)
 //-------------yves - ash ---youms------------------------------------
 int
 sys_clear(void) {
-    wait();
+    // wait();
     // outw(0x604, 0x2000);  // QEMU exit command
     // sbi_shutdown();
     cprintf("\033[H\033[J");

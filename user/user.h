@@ -28,7 +28,7 @@ int uptime(void);
 int fsize(int);
 void echoOnOff();
 //-------------yves - ash ---youms------------------------------------
-void clear();
+int clear();
 int getuid();
 int geteuid();
 void setuid(int);
