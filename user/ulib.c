@@ -330,3 +330,12 @@ int pow(int base, int exponent)
 
 	return result;
 }
+
+int getchar(void) {
+    char ch;
+    // Read a single character from stdin (file descriptor 0)
+    if (read(0, &ch, 1) != 1) {
+        return -1;  // Error or end of input
+    }
+    return ch;
+}
