@@ -1,6 +1,11 @@
 {
     "files.associations": {
         "assert.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "types.h": "c",
+        "stat.h": "c",
+        "user.h": "c"
+        
     }
 }
+

@@ -35,4 +35,5 @@
 #define SYS_chpr            33
 #define SYS_touch           34
 #define SYS_freemem         35 
+#define SYS_lseek           36
 

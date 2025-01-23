@@ -158,6 +158,7 @@ int             argstr(int, char**);
 int             fetchint(uint, int*);
 int             fetchstr(uint, char**);
 void            syscall(void);
+int             argint(int, int*);
 
 // timer.c
 void            timerinit(void);

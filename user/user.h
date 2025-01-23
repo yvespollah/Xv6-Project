@@ -38,6 +38,7 @@ int updateDirOwner(const char*, int, int);
 int cps(void);
 int chpr(int pid, int priority);
 int freemem(void);
+int lseek(int, const int, const int);
 
 
 // ulib.c

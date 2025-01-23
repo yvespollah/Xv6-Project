@@ -118,6 +118,7 @@ extern int sys_cps(void);
 extern int sys_chpr(void);
 extern int sys_touch(void);
 extern int sys_freemem(void);
+extern int sys_lseek(void);
 
 
 static int (*syscalls[])(void) = {
@@ -157,6 +158,7 @@ static int (*syscalls[])(void) = {
 [SYS_chpr]    sys_chpr,
 [SYS_touch] sys_touch,
 [SYS_freemem] sys_freemem,
+[SYS_lseek]   sys_lseek,
 
 
 

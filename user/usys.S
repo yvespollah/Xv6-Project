@@ -42,4 +42,5 @@ SYSCALL(cps)
 SYSCALL(chpr)
 SYSCALL(touch)
 SYSCALL(freemem)
+SYSCALL(lseek)
 

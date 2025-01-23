@@ -220,6 +220,7 @@ UPROGS=\
 	$U/_nice\
 	$U/_touch\
 	$U/_freemem\
+	$U/_lseek\
 
 
 
