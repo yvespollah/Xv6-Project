@@ -27,7 +27,7 @@ int sleep(int);
 int uptime(void);
 int fsize(int);
 void echoOnOff();
-void clear();
+int clear();
 int getuid();
 int geteuid();
 void setuid(int);

@@ -1,4 +1,6 @@
+#ifndef NULL
 #define NULL 0
+#endif
 #define ROOT 0   // uid of the root user
 
 #define ADD_USER 		2
