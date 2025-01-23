@@ -339,3 +339,33 @@ int getchar(void) {
     }
     return ch;
 }
+
+/**
+ * Concatenates at most n characters of src to dest, null-terminating the
+ * result.  If src is shorter than n characters, no null terminator is
+ * appended.
+ *
+ * Returns a pointer to dest.
+ */
+char *mystrncat(char *dest, const char *src, uint n) {
+    char *d = dest;
+    
+    // Move `d` to the end of the destination string
+    while (*d != '\0') {
+        d++;
+    }
+    
+    // Append up to `n` characters from the source string
+    while (n > 0 && *src != '\0') {
+        *d = *src;
+        d++;
+        src++;
+        n--;
+    }
+    
+    // Null-terminate the resulting string
+    *d = '\0';
+    
+    return dest;
+}
+		

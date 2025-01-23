@@ -65,3 +65,5 @@ int abs(int);
 int isEmptyString(char*);
 int pow(int, int);
 int getchar(void);
+
+char *mystrncat(char *dest, const char *src, uint n);
