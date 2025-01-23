@@ -36,9 +36,9 @@ main(void)
 		}
 		if(pid == 0){
 			while(1)
-				exec("/bin/getty", argv);		// execute getty to ask for username and password, when getty is finised ask again
+				exec("/bin/getty", argv);		// execute getty to ask for username and password, when getty is finished ask again
 			printf("init: exec getty failed\n");
-			// exit();
+			exit();
 		}
 		while((wpid=wait()) >= 0 && wpid != pid)
 			printf("zombie!\n");
