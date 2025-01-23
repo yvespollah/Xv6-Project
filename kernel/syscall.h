@@ -23,6 +23,7 @@
 #define SYS_fsize  			22
 #define SYS_echoOnOff 		23
 // #define SYS_clear 			24
+//-------------yves - ash ---youms------------------------------------
 #define SYS_getuid 			25
 #define SYS_geteuid 		26
 #define SYS_setuid 			27
@@ -30,4 +31,8 @@
 #define SYS_chown 			29
 #define SYS_updateDirOwner 	30
 #define SYS_clear           31
+#define SYS_cps             32
+#define SYS_chpr            33
+#define SYS_touch           34
+#define SYS_freemem         35 
 

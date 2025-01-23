@@ -105,6 +105,7 @@ extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_fsize(void);
 extern int sys_echoOnOff(void);
+//-------------yves - ash ---youms------------------------------------
 extern int sys_clear(void);
 extern int sys_getuid(void);
 extern int sys_geteuid(void);
@@ -113,6 +114,10 @@ extern int sys_chmod(void);
 extern int sys_chown(void);
 extern int sys_updateDirOwner(void);
 extern int sys_clear(void);
+extern int sys_cps(void);
+extern int sys_chpr(void);
+extern int sys_touch(void);
+extern int sys_freemem(void);
 
 
 static int (*syscalls[])(void) = {
@@ -139,6 +144,7 @@ static int (*syscalls[])(void) = {
 [SYS_close]   sys_close,
 [SYS_fsize]   sys_fsize,
 [SYS_echoOnOff]   sys_echoOnOff,
+//-------------yves - ash ---youms------------------------------------
 [SYS_clear]   sys_clear,
 [SYS_getuid]   sys_getuid,
 [SYS_geteuid]   sys_geteuid,
@@ -147,6 +153,12 @@ static int (*syscalls[])(void) = {
 [SYS_chown]   sys_chown,
 [SYS_updateDirOwner]   sys_updateDirOwner,
 [SYS_clear]   sys_clear,
+[SYS_cps]     sys_cps,
+[SYS_chpr]    sys_chpr,
+[SYS_touch] sys_touch,
+[SYS_freemem] sys_freemem,
+
+
 
 };
 

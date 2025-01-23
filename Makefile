@@ -215,6 +215,12 @@ UPROGS=\
 	$U/_wc\
 	$U/_zombie\
 	$U/_clear\
+	$U/_ps\
+	$U/_dprog\
+	$U/_nice\
+	$U/_touch\
+	$U/_freemem\
+
 
 
 fs.img: $T/mkfs README passwd group issue motd $(UPROGS)

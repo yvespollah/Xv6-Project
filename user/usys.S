@@ -38,3 +38,8 @@ SYSCALL(setuid)
 SYSCALL(chmod)
 SYSCALL(chown)
 SYSCALL(updateDirOwner)
+SYSCALL(cps)
+SYSCALL(chpr)
+SYSCALL(touch)
+SYSCALL(freemem)
+

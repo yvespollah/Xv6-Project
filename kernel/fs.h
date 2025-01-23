@@ -4,6 +4,9 @@
 
 #define ROOTINO 1  // root i-number
 #define BSIZE 2048  // block size
+#define T_DIR  1   // Directory
+#define T_FILE 2   // File
+#define T_DEV  3   // Device
 
 // Disk layout:
 // [ boot block | super block | log | inode blocks |

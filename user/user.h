@@ -27,6 +27,7 @@ int sleep(int);
 int uptime(void);
 int fsize(int);
 void echoOnOff();
+//-------------yves - ash ---youms------------------------------------
 void clear();
 int getuid();
 int geteuid();
@@ -34,6 +35,10 @@ void setuid(int);
 int chmod(const char*, int);
 int chown(const char*, int, int);
 int updateDirOwner(const char*, int, int);
+int cps(void);
+int chpr(int pid, int priority);
+int freemem(void);
+
 
 // ulib.c
 int stat(const char*, struct stat*);
@@ -58,3 +63,5 @@ char* itoa(int, char*, int);
 int abs(int);
 int isEmptyString(char*);
 int pow(int, int);
+
+

@@ -68,6 +68,7 @@ char*           kalloc(void);
 void            kfree(char*);
 void            kinit1(void*, void*);
 void            kinit2(void*, void*);
+uint            free_memory(void);
 
 // kbd.c
 void            kbdintr(void);
@@ -119,6 +120,9 @@ void            userinit(void);
 int             wait(void);
 void            wakeup(void*);
 void            yield(void);
+//-------------yves - ash ---youms------------------------------------
+int		        cps(void);
+int 		    chpr(int pid, int priority);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
@@ -184,6 +188,8 @@ void            switchuvm(struct proc*);
 void            switchkvm(void);
 int             copyout(pde_t*, uint, void*, uint);
 void            clearpteu(pde_t *pgdir, char *uva);
+struct inode* create(char *path, short type, short major, short minor);
+
 
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))

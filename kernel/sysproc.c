@@ -6,6 +6,8 @@
 #include "memlayout.h"
 #include "mmu.h"
 #include "proc.h"
+#include "fs.h"
+
 
 int
 sys_fork(void)
@@ -115,4 +117,48 @@ int sys_setuid()
 	currProc->euid=uid;
 		
 	return 1;
+}
+
+//-------------yves - ash ---youms------------------------------------
+
+int
+sys_cps(void)
+{
+  return cps();
+}
+
+int
+sys_chpr(void)
+{
+  int pid, pr;
+  if(argint(0, &pid) < 0)
+    return -1;
+  if(argint(1, &pr) < 0)
+    return -1;
+
+  return chpr(pid, pr);
+}
+//---------------------------touch function----------------------
+uint64
+sys_touch(void)
+{
+    char path[MAXPATH];
+    if (argstr(0, &path) < 0) // Corrected function call
+        return -1;
+
+    begin_op();  // Start a transaction
+    struct inode *ip = create(path, T_FILE, 0, 0);
+    if (ip == 0) {
+        end_op();  // End the transaction
+        return -1;
+    }
+    iunlockput(ip);
+    end_op();  // End the transaction
+
+    return 0; // Success
+}
+ //------------------------------freemem function------------------------
+
+uint sys_freemem(void) {
+   return free_memory();
 }

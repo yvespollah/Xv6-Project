@@ -94,3 +94,17 @@ kalloc(void)
 	return (char*)r;
 }
 
+
+uint free_memory(void){
+ struct run *r; // un pointer qui vas parcourir la list
+ int free_page=0;
+
+
+ acquire(&kmem.lock);
+ for(r = kmem.freelist; r; r=r->next){
+   free_page++;
+ }
+ release(&kmem.lock);
+ return free_page* PGSIZE;
+
+}
