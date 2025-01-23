@@ -56,24 +56,6 @@ void strip_quotes(char *expression) {
     }
 }
 
-/**
- * Copies at most n characters of src to dest, padding with zeros
- * if src is shorter than n characters.  If src is longer than n
- * characters, no null terminator is appended.
- *
- * Returns a pointer to dest.
- */
-char *strncpy(char *dest, const char *src, uint n) {
-    uint i;
-    for (i = 0; i < n && src[i] != '\0'; i++) {
-        dest[i] = src[i];
-    }
-    for (; i < n; i++) {
-        dest[i] = '\0';
-    }
-    return dest;
-}
-
 
 
 // Function to parse and evaluate a simple expression

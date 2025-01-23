@@ -67,6 +67,9 @@ strncmp(const char *p, const char *q, uint n)
   return (uchar)*p - (uchar)*q;
 }
 
+// Copy at most n-1 characters from t to s.
+// If the length of t is less than n, append nulls to s.
+// Return s.
 char*
 strncpy(char *s, const char *t, int n)
 {
@@ -104,4 +107,3 @@ strlen(const char *s)
     ;
   return n;
 }
-

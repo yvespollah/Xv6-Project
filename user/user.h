@@ -54,7 +54,5 @@ int listprocs(void);
 int lseek(int, const int, const int);
 int clear(void);
 int cps(void);
-int shutdown(void);
-
-
-
+char *strncpy(char *dest, const char *src, uint n);
+char *mystrncat(char *dest, const char *src, uint n);
