@@ -112,6 +112,7 @@ extern int sys_setuid(void);
 extern int sys_chmod(void);
 extern int sys_chown(void);
 extern int sys_updateDirOwner(void);
+extern int sys_listprocs(void);
 
 
 static int (*syscalls[])(void) = {
@@ -145,6 +146,7 @@ static int (*syscalls[])(void) = {
 [SYS_chmod]   sys_chmod,
 [SYS_chown]   sys_chown,
 [SYS_updateDirOwner]   sys_updateDirOwner,
+[SYS_listprocs]    sys_listprocs,
 
 };
 

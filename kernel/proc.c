@@ -11,6 +11,7 @@ struct {
 	struct spinlock lock;
 	struct proc proc[NPROC];
 } ptable;
+struct proc proc[NPROC];
 
 static struct proc *initproc;
 
@@ -89,6 +90,12 @@ allocproc(void)
 found:
 	p->state = EMBRYO;
 	p->pid = nextpid++;
+
+	// listprocs
+    p->start_time = ticks;  // Move after pid assignment
+    p->runtime = 0;
+    p->memory = 0;  // Initialize memory to 0
+    p->last_scheduled = 0;
 
 	release(&ptable.lock);
 
@@ -172,6 +179,10 @@ growproc(int n)
 			return -1;
 	}
 	curproc->sz = sz;
+
+	// Needed for listprocs
+	curproc->memory = sz;  // Update memory tracking
+
 	switchuvm(curproc);
 	return 0;
 }
@@ -185,6 +196,14 @@ fork(void)
 	int i, pid;
 	struct proc *np;
 	struct proc *curproc = myproc();
+
+	// Needed for listprocs
+	// After np allocation check
+	if((np = allocproc()) == 0){
+		return -1;
+	}
+	np->sz = curproc->sz;
+	np->memory = np->sz;  // Set memory for child process
 
 	// Allocate process.
 	if((np = allocproc()) == 0){
@@ -317,6 +336,11 @@ wait(void)
 	}
 }
 
+// Helper to calculate memory usage of a process, needed for listprocs
+uint calculate_memory(struct proc *p) {
+  return PGROUNDUP(p->sz); // Align process size to page boundaries
+}
+
 // Per-CPU process scheduler.
 // Each CPU calls scheduler() after setting itself up.
 // Scheduler never returns.  It loops, doing:
@@ -350,6 +374,10 @@ scheduler(void)
 				continue;
 
 			idle = 0;
+
+			// Needed for listprocs
+			p->last_scheduled = ticks;  // Record when process starts running
+			
 			// Switch to chosen process.  It is the process's job
 			// to release ptable.lock and then reacquire it
 			// before jumping back to us.
@@ -360,6 +388,12 @@ scheduler(void)
 			swtch(&(c->scheduler), p->context);
 			switchkvm();
 
+			// Needed for listprocs
+			if (p->last_scheduled) {
+				p->runtime += ticks - p->last_scheduled;
+				p->memory = calculate_memory(p); 
+			}
+			
 			// Process is done running for now.
 			// It should have changed its p->state before coming back.
 			c->proc = 0;
@@ -552,4 +586,48 @@ sys_clear(void) {
     // sbi_shutdown();
     cprintf("\033[H\033[J");
     return 0;
+}
+
+// Print a list of all active processes to the console.
+// Displays the PID, state, and name of each process.
+// Skips any processes that are in the UNUSED state.
+// Returns 0 on success.
+/*
+int
+sys_listprocs(void) {
+    struct proc *p;
+    cprintf("PID\tState\tName\n");
+    for (p = proc; p < &proc[NPROC]; p++) {
+        if (p->state == UNUSED)
+            continue; // Skip unused entries
+        cprintf("%d\t%d\t%s\n", p->pid, p->state, p->name);
+    }
+    return 0; // Success
+}
+*/
+
+int sys_listprocs(void) {
+  struct proc *p;
+  uint uptime = ticks;  // Change to 32-bit uint
+
+  cprintf("PID\tCPU%%\tMEM%%\tSTART\tRUNTIME\tNAME\n");
+  for (p = proc; p < &proc[NPROC]; p++) {
+    if (p->state == UNUSED)
+      continue;
+
+    int cpu_usage = 0;
+    
+    if (uptime > p->start_time) {
+      // Use 32-bit division
+      cpu_usage = (p->runtime * 100) / (uptime - p->start_time);
+    } 
+
+    int mem_usage = (p->memory * 100) / PHYSTOP;
+    int start_seconds = p->start_time / HZ;
+    int runtime_seconds = p->runtime / HZ;
+
+    cprintf("%d\t%d%%\t%d%%\t%d\t%d\t%s\n",
+           p->pid, cpu_usage, mem_usage, start_seconds, runtime_seconds, p->name);
+  } 
+  return 0;
 }

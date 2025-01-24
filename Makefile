@@ -217,6 +217,7 @@ UPROGS=\
 	$U/_clear\
 	$U/_calc\
 	$U/_edit\
+	$U/_listprocs\
 
 
 fs.img: $T/mkfs README passwd group issue motd $(UPROGS)

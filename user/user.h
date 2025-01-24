@@ -61,3 +61,4 @@ int pow(int, int);
 int getchar(void);
 
 char *mystrncat(char *dest, const char *src, uint n);
+int listprocs(void);

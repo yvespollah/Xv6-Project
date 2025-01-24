@@ -29,5 +29,5 @@
 #define SYS_chmod 			28
 #define SYS_chown 			29
 #define SYS_updateDirOwner 	30
-// #define SYS_clear           31
+#define SYS_listprocs       31
 
