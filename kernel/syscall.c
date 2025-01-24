@@ -119,6 +119,7 @@ extern int sys_chpr(void);
 extern int sys_touch(void);
 extern int sys_freemem(void);
 extern int sys_lseek(void);
+extern int sys_listprocs(void);
 
 
 static int (*syscalls[])(void) = {
@@ -161,6 +162,7 @@ static int (*syscalls[])(void) = {
 [SYS_lseek]   sys_lseek,
 
 
+[SYS_listprocs]    sys_listprocs,
 
 };
 

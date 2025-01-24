@@ -52,6 +52,11 @@ struct proc {
 	int uid;					 // User id
 	int euid;					 // Effective user id
 
+	uint start_time;           // Time (in ticks) when the process started
+	uint runtime;              // Total runtime (in ticks)
+	uint memory;               // Memory usage in bytes
+	uint last_scheduled;       // Last time the process was scheduled
+
 };
 
 // Process memory is laid out contiguously, low addresses first:

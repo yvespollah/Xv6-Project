@@ -13,3 +13,4 @@
 #define FSSIZE       1000  // size of file system in blocks
 #define MAXPATH 128
 
+#define HZ           100   // number of ticks per second

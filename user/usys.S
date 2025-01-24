@@ -44,3 +44,4 @@ SYSCALL(touch)
 SYSCALL(freemem)
 SYSCALL(lseek)
 
+SYSCALL(listprocs)

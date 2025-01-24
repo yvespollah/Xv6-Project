@@ -11,6 +11,7 @@ struct {
 	struct spinlock lock;
 	struct proc proc[NPROC];
 } ptable;
+struct proc proc[NPROC];
 
 static struct proc *initproc;
 
@@ -91,7 +92,13 @@ found:
   p->pid = nextpid++;
   p->priority = 10;
 
-  release(&ptable.lock);
+	// listprocs
+    p->start_time = ticks;  // Move after pid assignment
+    p->runtime = 0;
+    p->memory = 0;  // Initialize memory to 0
+    p->last_scheduled = 0;
+
+	release(&ptable.lock);
 
   // Allocate kernel stack.
   if((p->kstack = kalloc()) == 0){
@@ -173,6 +180,10 @@ growproc(int n)
 			return -1;
 	}
 	curproc->sz = sz;
+
+	// Needed for listprocs
+	curproc->memory = sz;  // Update memory tracking
+
 	switchuvm(curproc);
 	return 0;
 }
@@ -183,9 +194,17 @@ growproc(int n)
 int
 fork(void)
 {
-  int i, pid;
-  struct proc *np;
-  struct proc *curproc = myproc();
+	int i, pid;
+	struct proc *np;
+	struct proc *curproc = myproc();
+
+	// Needed for listprocs
+	// After np allocation check
+	if((np = allocproc()) == 0){
+		return -1;
+	}
+	np->sz = curproc->sz;
+	np->memory = np->sz;  // Set memory for child process
 
   // Allocate process.
   if((np = allocproc()) == 0){
@@ -314,6 +333,11 @@ wait(void)
 	}
 }
 
+// Helper to calculate memory usage of a process, needed for listprocs
+uint calculate_memory(struct proc *p) {
+  return PGROUNDUP(p->sz); // Align process size to page boundaries
+}
+
 // Per-CPU process scheduler.
 // Each CPU calls scheduler() after setting itself up.
 // Scheduler never returns.  It loops, doing:
@@ -340,30 +364,32 @@ scheduler(void)
       if(p->state != RUNNABLE)
         continue;
 
-      // Switch to chosen process.  It is the process's job
-      // to release ptable.lock and then reacquire it
-      // before jumping back to us.
-      highP = p;
-      //choose one with highest priority
-      for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
-	if(p1->state != RUNNABLE)
-	  continue;
-	if(highP->priority > p1->priority)   //larger value, lower priority
-	  highP = p1;
-      }
-      p = highP;
-      c->proc = p;
-      switchuvm(p);
-      p->state = RUNNING;
+			idle = 0;
 
-      swtch(&(c->scheduler), p->context);
-      switchkvm();
+			// Needed for listprocs
+			p->last_scheduled = ticks;  // Record when process starts running
+			
+			// Switch to chosen process.  It is the process's job
+			// to release ptable.lock and then reacquire it
+			// before jumping back to us.
+			c->proc = p;
+			switchuvm(p);
+			p->state = RUNNING;
 
-      // Process is done running for now.
-      // It should have changed its p->state before coming back.
-      c->proc = 0;
-    }
-    release(&ptable.lock);
+			swtch(&(c->scheduler), p->context);
+			switchkvm();
+
+			// Needed for listprocs
+			if (p->last_scheduled) {
+				p->runtime += ticks - p->last_scheduled;
+				p->memory = calculate_memory(p); 
+			}
+			
+			// Process is done running for now.
+			// It should have changed its p->state before coming back.
+			c->proc = 0;
+		}
+		release(&ptable.lock);
 
   }
 }
@@ -556,58 +582,46 @@ sys_clear(void) {
     return 0;
 }
 
+// Print a list of all active processes to the console.
+// Displays the PID, state, and name of each process.
+// Skips any processes that are in the UNUSED state.
+// Returns 0 on success.
+/*
 int
-cps()
-{
-struct proc *p;
-//Enables interrupts on this processor.
-sti();
-
-//Loop over process table looking for process with pid.
-acquire(&ptable.lock);
-cprintf("name \t pid \t state \t priority \n");
-for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-	if(p->state == SLEEPING)
-	 cprintf("%s \t %d \t SLEEPING \t %d \n ", p->name,p->pid,p->priority);
-	else if(p->state == RUNNING)
- 	 cprintf("%s \t %d \t RUNNING \t %d \n ", p->name,p->pid,p->priority);
-	else if(p->state == RUNNABLE)
- 	 cprintf("%s \t %d \t RUNNABLE \t %d \n ", p->name,p->pid,p->priority);
-}
-release(&ptable.lock);
-return 32;
-}
-int chpr(int pid, int priority) {
-    struct proc *p, *p_highest_priority = 0;
-
-    acquire(&ptable.lock);
-
-    // Loop through the process table to find the process with the given pid
-    for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
-        if (p->pid == pid) {
-           
-
-            // Find the process with the smallest priority among all RUNNABLE processes
-            if (p->state == RUNNABLE) {
-                p_highest_priority = p; // Initially set it to the current process
-
-                // Loop again to compare priorities with other RUNNABLE processes
-                for (struct proc *p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++) {
-                    if (p1->state == RUNNABLE && p1->priority < p_highest_priority->priority) {
-                        p_highest_priority = p1; // Update to the process with the smallest priority
-                    }
-                }
-
-                // Change the state of the process with the smallest priority to RUNNING
-                p_highest_priority->state = RUNNING;
-            }
-			 // Update the process's priority
-            p->priority = priority;
-            break;
-        }
+sys_listprocs(void) {
+    struct proc *p;
+    cprintf("PID\tState\tName\n");
+    for (p = proc; p < &proc[NPROC]; p++) {
+        if (p->state == UNUSED)
+            continue; // Skip unused entries
+        cprintf("%d\t%d\t%s\n", p->pid, p->state, p->name);
     }
+    return 0; // Success
+}
+*/
 
-    release(&ptable.lock);
+int sys_listprocs(void) {
+  struct proc *p;
+  uint uptime = ticks;  // Change to 32-bit uint
 
-    return pid;
+  cprintf("PID\tCPU%%\tMEM%%\tSTART\tRUNTIME\tNAME\n");
+  for (p = proc; p < &proc[NPROC]; p++) {
+    if (p->state == UNUSED)
+      continue;
+
+    int cpu_usage = 0;
+    
+    if (uptime > p->start_time) {
+      // Use 32-bit division
+      cpu_usage = (p->runtime * 100) / (uptime - p->start_time);
+    } 
+
+    int mem_usage = (p->memory * 100) / PHYSTOP;
+    int start_seconds = p->start_time / HZ;
+    int runtime_seconds = p->runtime / HZ;
+
+    cprintf("%d\t%d%%\t%d%%\t%d\t%d\t%s\n",
+           p->pid, cpu_usage, mem_usage, start_seconds, runtime_seconds, p->name);
+  } 
+  return 0;
 }
