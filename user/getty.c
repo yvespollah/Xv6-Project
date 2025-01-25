@@ -130,12 +130,12 @@ main(int argc, char *argv[])
 					break;  // Exit loop if Enter key is pressed
 				}
 			}
-			printf("Exiting...\n");
-			exit();  // Exit after pressing Enter
+		//	printf("Exiting...\n");
+		//	exit();  // Exit after pressing Enter 
 		} 
 		else if (input[0] == '2') {
 			// Option 2: Start the shell
-			printf("\nAt any time, enter exit to go back\nStarting the shell...\n");
+			printf("\nAt any time, enter \033[1;33mexit\033[0m to go back\nStarting the shell...\n");
 			printf("\n\n\n\n\n\n\n\n\n\n");
 			sleep(50);
 			pid = fork();
