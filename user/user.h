@@ -27,6 +27,7 @@ int sleep(int);
 int uptime(void);
 int fsize(int);
 void echoOnOff();
+
 //-------------yves - ash ---youms------------------------------------
 int clear();
 int getuid();
@@ -39,6 +40,8 @@ int cps(void);
 int chpr(int pid, int priority);
 int freemem(void);
 int lseek(int, const int, const int);
+char *mystrncat(char *dest, const char *src, uint n);
+int listprocs(void);
 
 
 // ulib.c
@@ -66,5 +69,3 @@ int isEmptyString(char*);
 int pow(int, int);
 int getchar(void);
 
-char *mystrncat(char *dest, const char *src, uint n);
-int listprocs(void);

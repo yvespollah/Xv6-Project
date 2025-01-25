@@ -22,8 +22,10 @@
 #define SYS_close  			21
 #define SYS_fsize  			22
 #define SYS_echoOnOff 		23
-// #define SYS_clear 			24
+
 //-------------yves - ash ---youms------------------------------------
+
+#define SYS_listprocs       24
 #define SYS_getuid 			25
 #define SYS_geteuid 		26
 #define SYS_setuid 			27
@@ -36,5 +38,3 @@
 #define SYS_touch           34
 #define SYS_freemem         35 
 #define SYS_lseek           36
-#define SYS_listprocs       37
-
