@@ -8,4 +8,4 @@ _*
 .gdbinit
 kernel/kernel
 *.out
-./vscode
+.vscode/
