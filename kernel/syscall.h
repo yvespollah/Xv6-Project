@@ -36,5 +36,5 @@
 #define SYS_touch           34
 #define SYS_freemem         35 
 #define SYS_lseek           36
-#define SYS_listprocs       31
+#define SYS_listprocs       37
 

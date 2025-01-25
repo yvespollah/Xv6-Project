@@ -350,21 +350,21 @@ uint calculate_memory(struct proc *p) {
 void
 scheduler(void)
 {
-  struct proc *p, *p1;
+  struct proc *p;
   struct cpu *c = mycpu();
   c->proc = 0;
   
   for(;;){
     // Enable interrupts on this processor.
     sti();
-    struct proc *highP;
+    // struct proc *highP;
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
 
-			idle = 0;
+			//idle = 0;
 
 			// Needed for listprocs
 			p->last_scheduled = ticks;  // Record when process starts running
@@ -581,6 +581,63 @@ sys_clear(void) {
     cprintf("\033[H\033[J");
     return 0;
 }
+
+int
+cps()
+{
+struct proc *p;
+//Enables interrupts on this processor.
+sti();
+
+//Loop over process table looking for process with pid.
+acquire(&ptable.lock);
+cprintf("name \t pid \t state \t priority \n");
+for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+	if(p->state == SLEEPING)
+	 cprintf("%s \t %d \t SLEEPING \t %d \n ", p->name,p->pid,p->priority);
+	else if(p->state == RUNNING)
+ 	 cprintf("%s \t %d \t RUNNING \t %d \n ", p->name,p->pid,p->priority);
+	else if(p->state == RUNNABLE)
+ 	 cprintf("%s \t %d \t RUNNABLE \t %d \n ", p->name,p->pid,p->priority);
+}
+release(&ptable.lock);
+return 32;
+}
+int chpr(int pid, int priority) {
+    struct proc *p, *p_highest_priority = 0;
+
+    acquire(&ptable.lock);
+
+    // Loop through the process table to find the process with the given pid
+    for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+        if (p->pid == pid) {
+           
+
+            // Find the process with the smallest priority among all RUNNABLE processes
+            if (p->state == RUNNABLE) {
+                p_highest_priority = p; // Initially set it to the current process
+
+                // Loop again to compare priorities with other RUNNABLE processes
+                for (struct proc *p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++) {
+                    if (p1->state == RUNNABLE && p1->priority < p_highest_priority->priority) {
+                        p_highest_priority = p1; // Update to the process with the smallest priority
+                    }
+                }
+
+                // Change the state of the process with the smallest priority to RUNNING
+                p_highest_priority->state = RUNNING;
+            }
+			 // Update the process's priority
+            p->priority = priority;
+            break;
+        }
+    }
+
+    release(&ptable.lock);
+
+    return pid;
+}
+
 
 // Print a list of all active processes to the console.
 // Displays the PID, state, and name of each process.

@@ -221,10 +221,10 @@ UPROGS=\
 	$U/_touch\
 	$U/_freemem\
 	$U/_lseek\
-
 	$U/_calc\
 	$U/_edit\
 	$U/_listprocs\
+
 
 
 fs.img: $T/mkfs README passwd group issue motd $(UPROGS)
