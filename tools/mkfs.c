@@ -73,15 +73,18 @@ xint(uint x)
 
 void getHomeDir(char* line)			// doesn't have a return type because strtok modifies string and sets pointer to the homedir
 {
-	char* token=strtok(line, ":");
+	// char* token=strtok(line, ":");
+	char* token= NULL;
 	int i=0;
-	while(i<5) {					// get the homedir from line
+
+	token = strtok(line, ":");
+	while(i<5 && token != NULL) {					// get the homedir from line
 		token=strtok(NULL, ":");
 		i++;
 	}
 
 	i=0;
-	while(i<3) {					// get the directory name after "/home/"
+	while(i<3 && token != NULL) {					// get the directory name after "/home/"
 		token=strtok(NULL, "/");
 		i++;
 	}

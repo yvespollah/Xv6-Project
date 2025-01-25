@@ -40,7 +40,7 @@ int parseCommandLineArguments(char arguments[4][STRING_SIZE],int argc,char* argv
 int
 main(int argc, char *argv[])
 {
-	char arguments[2][STRING_SIZE];
+	char arguments[4][STRING_SIZE];
 
 	int valid=parseCommandLineArguments(arguments, argc, argv);
 	if(!valid) {

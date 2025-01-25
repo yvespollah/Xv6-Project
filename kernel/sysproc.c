@@ -142,7 +142,8 @@ sys_chpr(void)
 uint64
 sys_touch(void)
 {
-    char path[MAXPATH];
+    // char path[MAXPATH];
+	char *path;
     if (argstr(0, &path) < 0) // Corrected function call
         return -1;
 
