@@ -175,6 +175,8 @@ consputc(int c)
 		uartputc('\b'); uartputc(' '); uartputc('\b');
 	} else
 		uartputc(c);
+
+	// Only write to the screen if echo is enabled
 	if(isPrintable)
 		cgaputc(c);
 }
@@ -189,6 +191,66 @@ struct {
 
 #define C(x)  ((x)-'@')  // Control-x
 
+
+/*
+ * Handles console input interrupts by reading characters from the input device
+ * through the provided getc function. Processes control characters to manage
+ * input buffer operations such as killing lines and handling backspaces. It 
+ * also triggers a process listing if the corresponding control character is 
+ * detected. Characters are echoed to the console based on the isPrintable flag.
+ * The function manages concurrency via a lock on the console structure.
+ */
+
+void consoleintr(int (*getc)(void)) {
+    int c, doprocdump = 0;
+
+    acquire(&cons.lock);
+    while ((c = getc()) >= 0) {
+        switch (c) {
+        case C('P'):  // Process listing.
+            doprocdump = 1;
+            break;
+        case C('U'):  // Kill line.
+            while (input.e != input.w && input.buf[(input.e - 1) % INPUT_BUF] != '\n') {
+                input.e--;
+                if (isPrintable)  // Only display backspace if printable
+                    consputc(BACKSPACE);
+            }
+            break;
+        case C('H'): case '\x7f':  // Backspace
+            if (input.e != input.w) {
+                input.e--;
+                if (isPrintable)  // Only display backspace if printable
+                    consputc(BACKSPACE);
+            }
+            break;
+        default:
+            if (c != 0 && input.e - input.r < INPUT_BUF) {
+                c = (c == '\r') ? '\n' : c;
+                input.buf[input.e++ % INPUT_BUF] = c;
+
+                if (isPrintable){
+                    consputc(c);	// Print the actual character
+				} else {
+            		consputc('*');  // Print an asterisk instead
+        		}
+
+                if (c == '\n' || c == C('D') || input.e == input.r + INPUT_BUF) {
+                    input.w = input.e;
+                    wakeup(&input.r);
+                }
+            }
+            break;
+        }
+    }
+    release(&cons.lock);
+
+    if (doprocdump) {
+        procdump();  // Now call procdump() without cons.lock held
+    }
+}
+
+/*
 void
 consoleintr(int (*getc)(void))
 {
@@ -232,7 +294,7 @@ consoleintr(int (*getc)(void))
 		procdump();  // now call procdump() wo. cons.lock held
 	}
 }
-
+*/
 int
 consoleread(struct inode *ip, char *dst, int n)
 {
