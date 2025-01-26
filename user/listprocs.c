@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
       printf("Error: Failed to list processes\n");
       exit();
     }
-      sleep(INTERVAL*2);  // Sleep for 1 tick (to prevent tight polling)
+      sleep(INTERVAL*2);  // Wait for the specified interval
   }
 
   printf("\n\nTask Manager: Exiting after %d refreshes\n", limit);
@@ -31,38 +31,3 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-
-
-/*
-int main(int argc, char *argv[]) {
-  int limit = 5;  // Default limit of refreshes
-  if (argc > 1) {
-    limit = atoi(argv[1]);  // User can specify the number of refreshes
-    if (limit <= 0) {
-      printf("Invalid limit. Please specify a positive integer.\n");
-      exit();
-    }
-  }
-
-  printf("Task Manager: Press Ctrl+A to quit (or wait %d refreshes)\n", limit);
-
-  for (int i = 0; i < limit; i++) {
-    printf("\n--- Process List (%d/%d) ---\n", i + 1, limit);
-    if (listprocs() < 0) {
-      printf("Error: Failed to list processes\n");
-      exit();
-    }
-    sleep(INTERVAL);  // Wait for the specified interval
-  }
-
-  printf("Task Manager: Exiting after %d refreshes\n", limit);
-  return 0;
-}
-
-
-int main(){
-    printf("Listing all processes:\n");
-    listprocs();
-    exit();
-}
-*/
