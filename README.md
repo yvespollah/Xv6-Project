@@ -116,16 +116,14 @@ Developed user-level programs for managing users, groups,permissions, creating n
 
 
 ### **7. Testing and Validation**
-- Tested the new features on QEMU with the RISC-V toolchain.  
+- Teste the new features ( all describe on the report).  
 - Verified user login, file access control, and test all the diferent system calls and user-programs implemented.
 
 ---
 
 ## **Build and Run Instructions** ( report on Linkedin) : Pollah Yves 
-1. Install the RISC-V toolchain from [RISC-V GNU Toolchain](https://github.com/riscv/riscv-gnu-toolchain).  
-2. Install QEMU   
-3. Clone the project repository and navigate to the directory.  
-4. Build and start XV6:
+1. Clone the project repository and navigate to the directory( for any pre-installation of any dependencies , steps are describe in the first part of the report).  
+2. Build and start XV6:
 
 ---
 
