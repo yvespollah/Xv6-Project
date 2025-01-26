@@ -17,7 +17,9 @@ The primary goal was to integrate standard Unix system features, specifically:
 
 ## **What We Did**
 
-### **1. User and Group Management**
+### **1. Creation of a user interface with a menu and various options to help users easily interact with the system.**
+
+### **2. User and Group Management**
 - **User Space Integration**: Implemented `/etc/passwd` and `/etc/group` for storing user and group data.  
 - **File Formats**:  
   - `/passwd`:  
@@ -31,7 +33,7 @@ The primary goal was to integrate standard Unix system features, specifically:
 - **Root User**: Added a superuser (`UID = 0`) with administrative privileges.  
   - Default credentials: `root:password`.
 
-### **2. File Permissions**
+### **3. File Permissions**
 - Incorporated Unix-style permissions (`rwx` for owner, group, and others).
 - Used octal and symbolic representations (e.g., `0755` or `-rwxr-xr-x`).
 - Updated the inode structure to include a permissions field:
@@ -39,7 +41,7 @@ The primary goal was to integrate standard Unix system features, specifically:
   - **Write (w = 2)**: Modify file or directory contents.  
   - **Execute (x = 1)**: Execute file or access directory.
 
-### **3. System Calls**
+### **4. System Calls**
 We added or modified system calls to support the new functionalities:
 
 - **`getuid`**: Retrieve the calling process’s UID.  
@@ -80,7 +82,7 @@ We added or modified system calls to support the new functionalities:
   - Lists all the processes running on the system along with their PID (Process ID), % of CPU utilisation, % of memory occupying by the process, and name of process.
   - This allows the user to monitor and manage processes.
 
-### **4. User Programs**
+### **5. User Programs**
 Developed user-level programs for managing users, groups,permissions, creating nwe process using dprog or spawn and also others user program for our different systemcall:
 
 #### **`getty`**
@@ -107,13 +109,13 @@ Developed user-level programs for managing users, groups,permissions, creating n
 - Changes file permissions using symbolic or octal modes.  
 - Example: Add execute permission to all users with `chmod a+x file`.
 
-### **5. Kernel Modifications**
+### **6. Kernel Modifications**
 - Modified the inode structure to include permission fields.  
 - Integrated user and group handling into the kernel.  
 - Ensured UID/GID validation for file operations.
 
 
-### **6. Testing and Validation**
+### **7. Testing and Validation**
 - Tested the new features on QEMU with the RISC-V toolchain.  
 - Verified user login, file access control, and test all the diferent system calls and user-programs implemented.
 
