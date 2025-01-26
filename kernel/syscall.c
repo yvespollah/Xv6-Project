@@ -160,8 +160,6 @@ static int (*syscalls[])(void) = {
 [SYS_touch] sys_touch,
 [SYS_freemem] sys_freemem,
 [SYS_lseek]   sys_lseek,
-
-
 [SYS_listprocs]    sys_listprocs,
 
 };

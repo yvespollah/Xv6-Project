@@ -659,26 +659,27 @@ sys_listprocs(void) {
 
 int sys_listprocs(void) {
   struct proc *p;
-  uint uptime = ticks;  // Change to 32-bit uint
+  uint uptime = ticks;
 
-  cprintf("PID\tCPU%%\tMEM%%\tSTART\tRUNTIME\tNAME\n");
-  for (p = proc; p < &proc[NPROC]; p++) {
-    if (p->state == UNUSED)
+  acquire(&ptable.lock);
+  cprintf("PID\tCPU%%\tMEM(KB)\t START\tRUNTIME\tNAME\n");
+  for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+    if (p->state == UNUSED || p->state == EMBRYO){
       continue;
+	}
 
-    int cpu_usage = 0;
-    
-    if (uptime > p->start_time) {
-      // Use 32-bit division
-      cpu_usage = (p->runtime * 100) / (uptime - p->start_time);
-    } 
-
-    int mem_usage = (p->memory * 100) / PHYSTOP;
+    // Simplified calculations
+    int cpu_usage = (p->runtime > 0 && uptime > p->start_time) 
+                    ? (p->runtime * 100) / (uptime - p->start_time)
+                    : 0;
+    // int mem_usage = (p->memory * 100) / PHYSTOP;
     int start_seconds = p->start_time / HZ;
     int runtime_seconds = p->runtime / HZ;
+	
+    cprintf("%d\t %d%%\t %dKB\t  %ds\t %ds\t%s\n",
+           p->pid, cpu_usage,p->memory / 1024, start_seconds, runtime_seconds, p->name);
+	}
 
-    cprintf("%d\t%d%%\t%d%%\t%d\t%d\t%s\n",
-           p->pid, cpu_usage, mem_usage, start_seconds, runtime_seconds, p->name);
-  } 
+  release(&ptable.lock);
   return 0;
 }

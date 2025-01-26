@@ -224,6 +224,7 @@ UPROGS=\
 	$U/_calc\
 	$U/_edit\
 	$U/_listprocs\
+	$U/_spawn\
 
 
 

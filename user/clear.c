@@ -20,5 +20,6 @@ int main() {
     printf("\n* execute a system call*\n");
     printf("=====================\n");
 */
+    exit();
     return 0;   
 }
