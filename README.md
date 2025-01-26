@@ -76,10 +76,9 @@ We added or modified system calls to support the new functionalities:
 - **`cpr`**: 
   - Initiates a system-wide checkpointing process.
   - It creates a snapshot of the system’s state, allowing for recovery in case of failure.
-
-- **`chpr`**: 
-  - Changes the priority of a process at runtime.
-  - This is similar to `nice`, but allows the user to adjust the priority of a process that is already running.
+- **`listprocs`**: 
+  - Lists all the processes running on the system along with their PID (Process ID), % of CPU utilisation, % of memory occupying by the process, and name of process.
+  - This allows the user to monitor and manage processes.
 
 ### **4. User Programs**
 Developed user-level programs for managing users, groups,permissions, creating nwe process using dprog or spawn and also others user program for our different systemcall:
@@ -112,9 +111,7 @@ Developed user-level programs for managing users, groups,permissions, creating n
 - Modified the inode structure to include permission fields.  
 - Integrated user and group handling into the kernel.  
 - Ensured UID/GID validation for file operations.
-- **`listprocs`**: 
-  - Lists all the processes running on the system along with their PID (Process ID), % of CPU utilisation, % of memory occupying by the process, and name of process.
-  - This allows the user to monitor and manage processes.
+
 
 ### **6. Testing and Validation**
 - Tested the new features on QEMU with the RISC-V toolchain.  
