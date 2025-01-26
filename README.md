@@ -114,6 +114,10 @@ Developed user-level programs for managing users, groups,permissions, creating n
 - Integrated user and group handling into the kernel.  
 - Ensured UID/GID validation for file operations.
 
+### **7. spawn**
+- Use to create new process  
+
+
 
 ### **7. Testing and Validation**
 - Teste the new features ( all describe on the report).  
@@ -136,9 +140,9 @@ This project is based on the XV6 operating system, a reimplementation of Unix Ve
 
 ## **Error Reports**
 For feedback or issues, contact:  
-- **Yves Programmeur** yves.pollah@facsciences-uy1.cm
-- **Ashley Jonson** ashley.ngnapa@facsciences-uy1.cm
-- **Kouega Youmbi** kouega.youmbi@facsciences-uy1.cm
+- **POLLAH Yves** yves.pollah@facsciences-uy1.cm
+- **NGNAPA Ashley** ashley.ngnapa@facsciences-uy1.cm
+- **KOUEGA Youmbi** kouega.youmbi@facsciences-uy1.cm
 
 
 ---
