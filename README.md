@@ -1,7 +1,7 @@
 # **XV6 Unix System Extension Project Master 1**
 
 ## **Introduction**
-In this project, we extended the XV6 operating system by implementing user and group management, file permissions, and related system calls to align it with modern Unix system standards. These changes enhance the educational value of XV6 by introducing key operating system concepts such as multi-user functionality, file access control, and process management.
+In this project, we extended the XV6 operating system by implementing user and group management, file permissions,a small file editor , a small calculator to perform sum of two number , and related system calls to align it with modern Unix system standards. These changes enhance the educational value of XV6 by introducing key operating system concepts such as multi-user functionality, file access control, and process management.
 
 ---
 
@@ -45,12 +45,12 @@ We added or modified system calls to support the new functionalities:
 - **`getuid`**: Retrieve the calling process’s UID.  
 - **`setuid`**: Change the calling process’s UID (root-only).  
 - **`chmod`**: Change file permissions.  
-- **`chown`**: Change file ownership.  
+- **`chown`**: Change file ownership.
+- **`edit`**: a small file editor looking like nano.
+- **`calc`**: a small calculator for addition of two numbers.
 - **Modified `stat`**: Include file ownership and permission details.
-
-#### **Additional System Calls**:
 - **`ps`**: 
-  - Lists all the processes running on the system along with their PID (Process ID), state, and associated user.
+  - Lists all the processes running on the system along with their PID (Process ID),Name, state, and priority.
   - This allows the user to monitor and manage processes.
   
 - **`nice`**: 
@@ -82,7 +82,7 @@ We added or modified system calls to support the new functionalities:
   - This is similar to `nice`, but allows the user to adjust the priority of a process that is already running.
 
 ### **4. User Programs**
-Developed user-level programs for managing users, groups, and permissions:
+Developed user-level programs for managing users, groups,permissions, creating nwe process using dprog or spawn and also others user program for our different systemcall:
 
 #### **`getty`**
 - First program executed after boot.  
@@ -112,10 +112,13 @@ Developed user-level programs for managing users, groups, and permissions:
 - Modified the inode structure to include permission fields.  
 - Integrated user and group handling into the kernel.  
 - Ensured UID/GID validation for file operations.
+- **`listprocs`**: 
+  - Lists all the processes running on the system along with their PID (Process ID), % of CPU utilisation, % of memory occupying by the process, and name of process.
+  - This allows the user to monitor and manage processes.
 
 ### **6. Testing and Validation**
 - Tested the new features on QEMU with the RISC-V toolchain.  
-- Verified user login, file access control, and administrative tasks.
+- Verified user login, file access control, and test all the diferent system calls and user-programs implemented.
 
 ---
 
